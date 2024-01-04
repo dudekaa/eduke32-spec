@@ -1,0 +1,12 @@
+--- /dev/null
++++ platform/fedora/mapster32.desktop
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Type=Application
++Name=Mapster32
++Comment=EDuke32 map editor
++# Icon=
++Categories=Game;
++TryExec=mapster32
++Exec=mapster32
++Terminal=false
