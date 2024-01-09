@@ -8,5 +8,5 @@
 +# Icon=
 +Categories=Game;
 +TryExec=mapster32
-+Exec=mapster32
++Exec=env SDL_VIDEODRIVER=x11 mapster32
 +Terminal=false

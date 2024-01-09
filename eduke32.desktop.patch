@@ -4,9 +4,9 @@
 +[Desktop Entry]
 +Type=Application
 +Name=EDuke32
-+Comment=The unofficial build of official EDuke32 repository
++Comment=The most advanced version of Duke Nukem 3D available
 +# Icon=
 +Categories=Game;
 +TryExec=eduke32
-+Exec=eduke32
++Exec=env SDL_VIDEODRIVER=x11 eduke32
 +Terminal=false
