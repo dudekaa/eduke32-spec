@@ -3,7 +3,7 @@
 
 Name:           eduke32
 Version:        0.1
-Release:        2.20240104g842047589%{?dist}
+Release:        3.20240104g842047589%{?dist}
 Summary:        The unofficial build of official EDuke32 repository
 
 Group:          Games
@@ -31,6 +31,12 @@ Requires:       libatomic
 
 %description
 The unofficial build of official EDuke32 Git repository: home to the source code to EDuke32, Ion Fury, and related projects based on the Build Engine.
+
+
+%package mapster32
+Summary:        EDuke32 map editor
+%description mapster32
+EDuke32 map editor
 
 
 %prep
@@ -64,12 +70,16 @@ desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 # % license add-license-file-here
 # % doc add-docs-here
 /usr/bin/%{name}
-/usr/bin/mapster32
 /usr/share/applications/%{name}.desktop
+
+%files mapster32
+/usr/bin/mapster32
 /usr/share/applications/mapster32.desktop
 
-
 %changelog
+* Thu Jan 11 2024 Arnošt Dudek <arnost@arnostdudek.cz> - 0.1-3.20240104g842047589
+- separate eduke32 and mapster32 binaries
+
 * Thu Jan 04 2024 Arnošt Dudek <arnost@arnostdudek.cz> - 0.1-2.20240104g842047589
 - disable concurent builds
 - fix .dekstop files rights
