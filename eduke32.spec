@@ -1,16 +1,16 @@
-%global insidedir eduke32-84204758904b33787220400501f71b5b82fb9708 
+%global insidedir eduke32-e35219148c8f3b0547408c1c00909158f7ec5c9d
 %global debug_package %{nil}
 
 Name:           eduke32
 Version:        0.1
-Release:        3.20240104g842047589%{?dist}
+Release:        4.20240620ge35219148%{?dist}
 Summary:        The unofficial build of official EDuke32 repository
 
 Group:          Games
 License:        UNKOWN
 URL:            https://voidpoint.io/terminx/eduke32/
-# https://voidpoint.io/terminx/eduke32/-/tree/84204758904b33787220400501f71b5b82fb9708
-Source0:        https://voidpoint.io/terminx/eduke32/-/archive/84204758904b33787220400501f71b5b82fb9708/eduke32-84204758904b33787220400501f71b5b82fb9708.zip
+# https://voidpoint.io/terminx/eduke32/-/tree/e35219148c8f3b0547408c1c00909158f7ec5c9d
+Source0:        https://voidpoint.io/terminx/eduke32/-/archive/e35219148c8f3b0547408c1c00909158f7ec5c9d/eduke32-e35219148c8f3b0547408c1c00909158f7ec5c9d.zip
 Patch0:         eduke32.desktop.patch
 Patch1:         mapster32.desktop.patch
 
@@ -77,6 +77,9 @@ desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 /usr/share/applications/mapster32.desktop
 
 %changelog
+* Thu Jun 20 2024 Arnošt Dudek <arnost@arnostdudek.cz> - 0.1-4.20240620ge35219148
+- rebuilt
+
 * Thu Jan 11 2024 Arnošt Dudek <arnost@arnostdudek.cz> - 0.1-3.20240104g842047589
 - separate eduke32 and mapster32 binaries
 
