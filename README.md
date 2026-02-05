@@ -11,7 +11,8 @@ The workflow relies on **GitOps** principles. Jenkins acts as a bot that watches
 1.  **Check:** Jenkins polls the upstream [EDuke32 GitLab](https://voidpoint.io/terminx/eduke32) for the latest commit hash.
 2.  **Compare:** It compares the upstream hash against the `%global commit` defined in `eduke32.spec`.
 3.  **Update:** If a new version is found:
-    *   Updates the commit hash and date in `eduke32.spec`.
+    *   Updates the commit hash and date in `eduke32.spec` using `sed`.
+    *   Bumps the Release number and adds a new `%changelog` entry using `rpmdev-bumpspec`.
     *   Commits and Pushes the changes back to **this** repository.
 4.  **Build:** Jenkins triggers `copr-cli buildscm`.
 5.  **Distribute:** COPR pulls the updated spec from this repo, downloads the source tarball from GitLab, and builds the RPMs.
@@ -41,11 +42,11 @@ The `Jenkinsfile` uses the following environment variables which can be adjusted
 *   `REGISTRY` / `IMAGE_NAME`: The Docker image used to run `copr-cli`.
 
 ### 4. Docker Image
-The pipeline requires a Docker image with `copr-cli` and `git` installed. A simple Dockerfile for this:
+The pipeline requires a Docker image with `copr-cli`, `rpmdevtools` (for version bumping), and `git` installed. A simple Dockerfile for this:
 
 ```dockerfile
 FROM fedora:latest
-RUN dnf install -y copr-cli git && dnf clean all
+RUN dnf install -y copr-cli rpmdevtools rpmlint rpm-build git && dnf clean all
 USER 1000
 ```
 
@@ -65,8 +66,9 @@ If you want to build a specific commit manually without waiting for Jenkins:
     %global commit <FULL_COMMIT_HASH>
     %global date <YYYYMMDD>
     ```
-2.  Commit and push.
-3.  Run the COPR build command manually:
+2.  Run `rpmdev-bumpspec` to update the changelog (optional).
+3.  Commit and push.
+4.  Run the COPR build command manually:
     ```bash
     copr-cli buildscm eduke32 \
       --clone-url https://github.com/youruser/eduke32-packaging.git \

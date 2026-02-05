@@ -55,11 +55,12 @@ pipeline {
 
         stage('Lint') {
             when { environment name: 'UPDATE_NEEDED', value: 'true' }
+            // Run inside the container where rpmdevtools/copr-cli are installed
             agent {
                 docker {
                     alwaysPull true
-                    image "${IMAGE_TAG}"
-                    registryCredentialsId 'nexus-jenkins'
+                    image "${REGISTRY}/${IMAGE_NAME}"
+                    registryCredentialsId DOCKER_CRED_ID
                     registryUrl "https://${REGISTRY}"
                     reuseNode true
                 }
@@ -71,10 +72,21 @@ pipeline {
 
         stage('Update Spec & Push') {
             when { environment name: 'UPDATE_NEEDED', value: 'true' }
+            agent {
+                docker {
+                    alwaysPull true
+                    image "${REGISTRY}/${IMAGE_NAME}"
+                    registryCredentialsId DOCKER_CRED_ID
+                    registryUrl "https://${REGISTRY}"
+                    args '--add-host nostovo.arnostdudek.cz:192.168.1.2'
+                    reuseNode true
+                }
+            }
             steps {
                 script {
                     // Generate new date string (YYYYMMDD)
                     def newDate = sh(returnStdout: true, script: "date +%Y%m%d").trim()
+                    def shortHash = env.NEW_HASH.take(8)
 
                     // Replace Commit Hash in Spec
                     sh "sed -i 's/^%global commit .*/%global commit ${env.NEW_HASH}/' ${PACKAGE_NAME}.spec"
@@ -82,8 +94,25 @@ pipeline {
                     // Replace Date in Spec
                     sh "sed -i 's/^%global date .*/%global date ${newDate}/' ${PACKAGE_NAME}.spec"
 
-                    // Verify change
+                    // Debug: Verify change
                     sh "grep '%global' ${PACKAGE_NAME}.spec"
+
+                    // Bump Release & Add Changelog (rpmdev-bumpspec)
+                    // -u: Sets the user for the changelog entry
+                    // -c: The comment to add
+                    // This command automatically increments the first number in 'Release'
+                    // and prepends a correctly formatted changelog entry.
+                    sh """
+                        rpmdev-bumpspec \
+                        --comment "Automated update to upstream commit ${shortHash}" \
+                        --userstring "Jenkins <jenkins@nostovo>" \
+                        ${PACKAGE_NAME}.spec
+                    """
+
+                    // Debug: Use rpmspec to query the fully expanded Release field
+                    sh "rpmspec -q --qf 'Release: %{RELEASE}\n' ${PACKAGE_NAME}.spec"
+                    // Debug: Show what happened with changelog
+                    sh "grep -A 5 '%changelog' ${PACKAGE_NAME}.spec"
 
                     // Configure Git Identity
                     sh 'git config user.email "jenkins@nostovo"'

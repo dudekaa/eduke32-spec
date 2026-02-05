@@ -8,9 +8,9 @@
 %global debug_package %{nil}
 
 Name:           eduke32
-Version:        0.1
+Version:        0.2
 # Release format: <build>.<date>g<hash>
-Release:        5.%{date}g%{shortcommit}%{?dist}
+Release:        1.%{date}g%{shortcommit}%{?dist}
 Summary:        The unofficial build of official EDuke32 repository
 
 Group:          Games
