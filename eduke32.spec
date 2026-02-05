@@ -1,6 +1,6 @@
 # These lines are targets for Jenkins sed commands
-%global commit e35219148c8f3b0547408c1c00909158f7ec5c9d
-%global date 20240620
+%global commit ba6b7bb1d50d7db820ec03d9bbd66404fab5c543
+%global date 20260205
 
 # Helper macros (do not edit these manually)
 %global shortcommit %(c=%{commit}; echo ${c:0:8})
@@ -10,7 +10,7 @@
 Name:           eduke32
 Version:        0.2
 # Release format: <build>.<date>g<hash>
-Release:        1.%{date}g%{shortcommit}%{?dist}
+Release:        2.%{date}g%{shortcommit}%{?dist}
 Summary:        The unofficial build of official EDuke32 repository
 
 Group:          Games
@@ -79,6 +79,9 @@ desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 /usr/share/applications/mapster32.desktop
 
 %changelog
+* Thu Feb 05 2026 Jenkins <jenkins@nostovo> - 0.2-2.20260205gba6b7bb1
+- Automated update to upstream commit ba6b7bb1
+
 * Thu Jun 20 2024 Arnošt Dudek <arnost@arnostdudek.cz> - 0.1-4.20240620ge35219148
 - rebuilt
 
