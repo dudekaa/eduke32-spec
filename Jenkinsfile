@@ -8,6 +8,11 @@ pipeline {
         timeout(time: 60, unit: 'MINUTES')
     }
 
+    triggers {
+        // Run between 10:00 and 10:59 AM in the specified timezone
+        cron("TZ=Europe/Prague\nH 10 * * *")
+    }
+
     environment {
         // Configuration
         UPSTREAM_GIT_URL        = 'https://voidpoint.io/terminx/eduke32.git'
