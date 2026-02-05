@@ -36,7 +36,7 @@ pipeline {
 
                     // Get Local Hash (from Spec file)
                     // Note: We extract the value defined in %global commit
-                    def localHash = sh(returnStdout: true, script: "grep '%global commit' eduke32.spec | awk '{print \$3}'").trim()
+                    def localHash = sh(returnStdout: true, script: "grep '%global commit' ${PACKAGE_NAME}.spec | awk '{print \$3}'").trim()
                     echo "Local Spec Hash: ${localHash}"
 
                     // Compare
@@ -77,20 +77,20 @@ pipeline {
                     def newDate = sh(returnStdout: true, script: "date +%Y%m%d").trim()
 
                     // Replace Commit Hash in Spec
-                    sh "sed -i 's/^%global commit .*/%global commit ${env.NEW_HASH}/' eduke32.spec"
+                    sh "sed -i 's/^%global commit .*/%global commit ${env.NEW_HASH}/' ${PACKAGE_NAME}.spec"
 
                     // Replace Date in Spec
-                    sh "sed -i 's/^%global date .*/%global date ${newDate}/' eduke32.spec"
+                    sh "sed -i 's/^%global date .*/%global date ${newDate}/' ${PACKAGE_NAME}.spec"
 
                     // Verify change
-                    sh "grep '%global' eduke32.spec"
+                    sh "grep '%global' ${PACKAGE_NAME}.spec"
 
                     // Configure Git Identity
                     sh 'git config user.email "jenkins@nostovo"'
                     sh 'git config user.name "Jenkins"'
                     
                     // Commit changes locally
-                    sh 'git add eduke32.spec'
+                    sh "git add ${PACKAGE_NAME}.spec"
                     sh "git commit -m 'chore: Auto-update to upstream commit ${NEW_HASH}'"
 
                     // PUSH via HTTPS (Dynamic URL Injection)
