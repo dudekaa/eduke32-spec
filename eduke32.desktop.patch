@@ -1,5 +1,5 @@
 --- /dev/null
-+++ platform/fedora/eduke32.desktop
++++ eduke32.desktop
 @@ -0,0 +1,9 @@
 +[Desktop Entry]
 +Type=Application

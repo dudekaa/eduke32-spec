@@ -1,5 +1,5 @@
 --- /dev/null
-+++ platform/fedora/mapster32.desktop
++++ mapster32.desktop
 @@ -0,0 +1,9 @@
 +[Desktop Entry]
 +Type=Application

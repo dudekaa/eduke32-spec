@@ -1,16 +1,23 @@
-%global insidedir eduke32-e35219148c8f3b0547408c1c00909158f7ec5c9d
+# These lines are targets for Jenkins sed commands
+%global commit e35219148c8f3b0547408c1c00909158f7ec5c9d
+%global date 20240620
+
+# Helper macros (do not edit these manually)
+%global shortcommit %(c=%{commit}; echo ${c:0:8})
+
 %global debug_package %{nil}
 
 Name:           eduke32
 Version:        0.1
-Release:        4.20240620ge35219148%{?dist}
+# Release format: <build>.<date>g<hash>
+Release:        5.%{date}g%{shortcommit}%{?dist}
 Summary:        The unofficial build of official EDuke32 repository
 
 Group:          Games
-License:        UNKOWN
+License:        GPLv2
 URL:            https://voidpoint.io/terminx/eduke32/
 # https://voidpoint.io/terminx/eduke32/-/tree/e35219148c8f3b0547408c1c00909158f7ec5c9d
-Source0:        https://voidpoint.io/terminx/eduke32/-/archive/e35219148c8f3b0547408c1c00909158f7ec5c9d/eduke32-e35219148c8f3b0547408c1c00909158f7ec5c9d.zip
+Source0:        %{url}-/archive/%{commit}/eduke32-%{commit}.zip
 Patch0:         eduke32.desktop.patch
 Patch1:         mapster32.desktop.patch
 
@@ -40,15 +47,12 @@ EDuke32 map editor
 
 
 %prep
-# % autosetup
-%setup -n %{insidedir} -q
-%patch -P 0
-%patch -P 1
+%setup -n %{name}-%{commit} -q
+%patch -P 0 -p0
+%patch -P 1 -p0
 
 
 %build
-# % configure
-# % make_build -f GNUmakefile
 # https://voidpoint.io/terminx/eduke32/-/issues/269
 make -f GNUmakefile
 
@@ -60,15 +64,13 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin
 install -p ./%{name} $RPM_BUILD_ROOT/usr/bin/%{name}
 install -p ./mapster32 $RPM_BUILD_ROOT/usr/bin/mapster32
 mkdir -p $RPM_BUILD_ROOT/usr/share/applications
-install -p -m 0644 %_builddir/%{insidedir}/platform/fedora/%{name}.desktop $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop
+install -p -m 0644 ./%{name}.desktop $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop
 desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop
-install -p -m 0644 %_builddir/%{insidedir}/platform/fedora/mapster32.desktop $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
+install -p -m 0644 ./mapster32.desktop $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 
 
 %files
-# % license add-license-file-here
-# % doc add-docs-here
 /usr/bin/%{name}
 /usr/share/applications/%{name}.desktop
 
@@ -89,4 +91,4 @@ desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 - force "x11" SDL backend
 
 * Thu Jan 04 2024 Arnošt Dudek <arnost@arnostdudek.cz> - 0.1-1.20240104g842047589
-- initial build 
+- initial build
