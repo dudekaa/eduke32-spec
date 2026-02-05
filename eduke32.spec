@@ -20,6 +20,8 @@ URL:            https://voidpoint.io/terminx/eduke32/
 Source0:        %{url}-/archive/%{commit}/eduke32-%{commit}.zip
 Patch0:         eduke32.desktop.patch
 Patch1:         mapster32.desktop.patch
+Patch2:         voidsw.desktop.patch
+Patch3:         wangulator.desktop.patch
 
 BuildRequires:  make automake gcc gcc-c++ kernel-devel
 BuildRequires:  SDL2-devel
@@ -46,15 +48,32 @@ Summary:        EDuke32 map editor
 EDuke32 map editor
 
 
+%package voidsw
+Summary:        VoidSW is a port of Shadow Warrior shooter
+%description voidsw
+VoidSW is an open-source, high-accuracy source port for the 1997 classic first-person shooter Shadow Warrior,
+developed by the EDuke32 team.
+
+
+%package wangulator
+Summary:        VoidSW map editor
+%description wangulator
+VoidSW map editor
+
+
 %prep
 %setup -n %{name}-%{commit} -q
 %patch -P 0 -p0
 %patch -P 1 -p0
+%patch -P 2 -p0
+%patch -P 3 -p0
 
 
 %build
 # https://voidpoint.io/terminx/eduke32/-/issues/269
 make -f GNUmakefile
+# builds voidsw and wangulator binaries
+make -f GNUmakefile sw
 
 
 %install
@@ -63,11 +82,17 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin
 install -p ./%{name} $RPM_BUILD_ROOT/usr/bin/%{name}
 install -p ./mapster32 $RPM_BUILD_ROOT/usr/bin/mapster32
+install -p ./voidsw $RPM_BUILD_ROOT/usr/bin/voidsw
+install -p ./wangulator $RPM_BUILD_ROOT/usr/bin/wangulator
 mkdir -p $RPM_BUILD_ROOT/usr/share/applications
 install -p -m 0644 ./%{name}.desktop $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop
 desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/%{name}.desktop
 install -p -m 0644 ./mapster32.desktop $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
+install -p -m 0644 ./voidsw.desktop $RPM_BUILD_ROOT/usr/share/applications/voidsw.desktop
+desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/voidsw.desktop
+install -p -m 0644 ./wangulator.desktop $RPM_BUILD_ROOT/usr/share/applications/wangulator.desktop
+desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/wangulator.desktop
 
 
 %files
@@ -78,7 +103,18 @@ desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/mapster32.desktop
 /usr/bin/mapster32
 /usr/share/applications/mapster32.desktop
 
+%files voidsw
+/usr/bin/voidsw
+/usr/share/applications/voidsw.desktop
+
+%files wangulator
+/usr/bin/wangulator
+/usr/share/applications/wangulator.desktop
+
 %changelog
+* Thu Feb 05 2026 Arnošt Dudek <arnost@arnostdudek.cz> - 0.2-3.20260205gba6b7bb1
+- added voidsw and wangulator binaries
+
 * Thu Feb 05 2026 Jenkins <jenkins@nostovo> - 0.2-2.20260205gba6b7bb1
 - Automated update to upstream commit ba6b7bb1
 

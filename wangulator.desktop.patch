@@ -1,0 +1,12 @@
+--- /dev/null	2026-02-05 11:52:50.598881890 +0100
++++ wangulator.desktop	2026-02-05 23:28:40.729478671 +0100
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Type=Application
++Name=Wangulator
++Comment=VoidSW map editor
++# Icon=
++Categories=Game;
++TryExec=eduke32
++Exec=env SDL_VIDEODRIVER=x11 wangulator
++Terminal=false

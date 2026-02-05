@@ -1,0 +1,12 @@
+--- /dev/null	2026-02-05 11:52:50.598881890 +0100
++++ voidsw.desktop	2026-02-05 23:26:36.397995975 +0100
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Type=Application
++Name=VoidSW
++Comment=The most advanced version of Shadow Warrior available
++# Icon=
++Categories=Game;
++TryExec=voidsw
++Exec=env SDL_VIDEODRIVER=x11 voidsw
++Terminal=false
