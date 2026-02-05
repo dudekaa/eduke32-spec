@@ -6,7 +6,8 @@
 +Name=VoidSW
 +Comment=The most advanced version of Shadow Warrior available
 +# Icon=
-+Categories=Game;
++Categories=Game;ActionGame;
++Keywords=swarrior;sw;fps;classic;
 +TryExec=voidsw
 +Exec=env SDL_VIDEODRIVER=x11 voidsw
 +Terminal=false

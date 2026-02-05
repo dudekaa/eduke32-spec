@@ -6,7 +6,8 @@
 +Name=EDuke32
 +Comment=The most advanced version of Duke Nukem 3D available
 +# Icon=
-+Categories=Game;
++Categories=Game;ActionGame;
++Keywords=duke;dn3d;fps;classic;
 +TryExec=eduke32
 +Exec=env SDL_VIDEODRIVER=x11 eduke32
 +Terminal=false
