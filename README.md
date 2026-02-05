@@ -1,5 +1,9 @@
 # EDuke32 RPM Packaging Automation
 
+[![Copr build status](https://copr.fedorainfracloud.org/coprs/nost23/eduke32/package/eduke32/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/nost23/eduke32/package/eduke32/)
+
+Build packages: https://copr.fedorainfracloud.org/coprs/nost23/eduke32/
+
 This repository contains the packaging logic (Spec file, patches, and pipeline) to build **EDuke32** RPMs for Fedora via [COPR](https://copr.fedorainfracloud.org/).
 
 It is designed as a **"Sidecar Repository"**: it does not contain the source code. Instead, it automates the retrieval of upstream source code, updates the versioning, and triggers builds on COPR.
