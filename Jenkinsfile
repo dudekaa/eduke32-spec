@@ -53,6 +53,22 @@ pipeline {
             }
         }
 
+        stage('Lint') {
+            when { environment name: 'UPDATE_NEEDED', value: 'true' }
+            agent {
+                docker {
+                    alwaysPull true
+                    image "${IMAGE_TAG}"
+                    registryCredentialsId 'nexus-jenkins'
+                    registryUrl "https://${REGISTRY}"
+                    reuseNode true
+                }
+            }
+            steps {
+                sh "rpmlint ${PACKAGE_NAME}.spec"
+            }
+        }
+
         stage('Update Spec & Push') {
             when { environment name: 'UPDATE_NEEDED', value: 'true' }
             steps {
