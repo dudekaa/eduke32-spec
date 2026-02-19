@@ -59,7 +59,10 @@ pipeline {
         }
 
         stage('Lint') {
-            when { environment name: 'UPDATE_NEEDED', value: 'true' }
+            when {
+                beforeAgent true
+                environment name: 'UPDATE_NEEDED', value: 'true'
+            }
             // Run inside the container where rpmdevtools/copr-cli are installed
             agent {
                 docker {
@@ -76,7 +79,10 @@ pipeline {
         }
 
         stage('Update Spec & Push') {
-            when { environment name: 'UPDATE_NEEDED', value: 'true' }
+            when {
+                beforeAgent true
+                environment name: 'UPDATE_NEEDED', value: 'true'
+            }
             agent {
                 docker {
                     alwaysPull true
@@ -147,7 +153,10 @@ pipeline {
         }
 
         stage('Trigger COPR Build') {
-            when { environment name: 'UPDATE_NEEDED', value: 'true' }
+            when {
+                beforeAgent true
+                environment name: 'UPDATE_NEEDED', value: 'true'
+            }
             agent {
                 docker {
                     alwaysPull true
