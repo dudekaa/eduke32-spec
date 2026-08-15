@@ -1,6 +1,6 @@
 # These lines are targets for Jenkins sed commands
-%global commit ba6b7bb1d50d7db820ec03d9bbd66404fab5c543
-%global date 20260205
+%global commit ec5824db81817866f70da326d3811bb0f52b3517
+%global date 20260815
 
 # Helper macros (do not edit these manually)
 %global shortcommit %(c=%{commit}; echo ${c:0:8})
@@ -10,7 +10,7 @@
 Name:           eduke32
 Version:        0.2
 # Release format: <build>.<date>g<hash>
-Release:        2.%{date}g%{shortcommit}%{?dist}
+Release:        3.%{date}g%{shortcommit}%{?dist}
 Summary:        The unofficial build of official EDuke32 repository
 
 Group:          Games
@@ -112,6 +112,9 @@ desktop-file-validate $RPM_BUILD_ROOT/usr/share/applications/wangulator.desktop
 /usr/share/applications/wangulator.desktop
 
 %changelog
+* Sat Aug 15 2026 Jenkins <jenkins@nostovo> - 0.2-3.20260815gec5824db
+- Automated update to upstream commit ec5824db
+
 * Thu Feb 05 2026 Arnošt Dudek <arnost@arnostdudek.cz> - 0.2-3.20260205gba6b7bb1
 - added voidsw and wangulator binaries
 
